@@ -1,0 +1,53 @@
+openapi: 3.0.3
+info:
+  title: Talent Service API
+  version: 1.0.0
+  description: API for Talent Service
+
+paths:
+  /api/jobs:
+    get:
+      summary: List jobs
+      operationId: getJobs
+      tags:
+        - Jobs
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Job'
+
+components:
+  schemas:
+    Job:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        title:
+          type: string
+        description:
+          type: string
+        company:
+          type: string
+        location:
+          type: string
+        salary:
+          type: number
+          format: float
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - description
+        - company
+        - location
+        - salary
+        - createdAt

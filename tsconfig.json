@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2023",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@nnpp/sso-client": [
+        "libs/sso-client/src"
+      ],
+      "@nnpp/sso-client/*": [
+        "libs/sso-client/src/*"
+      ],
+      "@nnpp/talent-client": [
+        "libs/talent-client/src"
+      ],
+      "@nnpp/talent-client/*": [
+        "libs/talent-client/src/*"
+      ],
+      "@tuan/common": [
+        "libs/common/src"
+      ],
+      "@tuan/common/*": [
+        "libs/common/src/*"
+      ],
+      "@tuan/contracts": [
+        "libs/contracts/src"
+      ],
+      "@tuan/contracts/*": [
+        "libs/contracts/src/*"
+      ]
+    }
+  }
+}

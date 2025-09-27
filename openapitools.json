@@ -1,0 +1,35 @@
+{
+    "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+    "spaces": 2,
+    "generator-cli": {
+      "version": "7.6.0",
+      "generators": {
+        "sso-client": {
+          "generatorName": "typescript-axios",
+          "inputSpec": "libs/sso-client/src/utils/oas.yml",
+          "output": "libs/sso-client/src/client/generated",
+          "additionalProperties": {
+            "stringEnums": true,
+            "supportsES6": true,
+            "typescriptThreePlus": true,
+            "enumPropertyNaming": "original",
+            "useSingleRequestParameter": true,
+            "withNodeImports": true
+          }
+        },
+        "talent-client": {
+          "generatorName": "typescript-axios",
+          "inputSpec": "libs/talent-client/src/utils/oas.yml",
+          "output": "libs/talent-client/src/client/generated",
+          "additionalProperties": {
+            "stringEnums": true,
+            "supportsES6": true,
+            "typescriptThreePlus": true,
+            "enumPropertyNaming": "original",
+            "useSingleRequestParameter": true,
+            "withNodeImports": true
+          }
+        }
+      }
+    }
+  }

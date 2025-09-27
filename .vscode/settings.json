@@ -1,0 +1,7 @@
+{
+    "editor.hover.sticky": true,
+    "editor.stickyScroll.enabled": true,
+    "editor.stickyScroll.scrollWithEditor": true,
+    "workbench.tree.enableStickyScroll": true,
+    "editor.stickyTabStops": true
+}
