@@ -24,6 +24,8 @@
     "prisma:generate-client:sso": "npx prisma generate --schema=apps/sso-service/prisma/schema.prisma",
     "prisma:generate:sso": "dotenv -e apps/sso-service/.env -- npx prisma migrate dev --schema=apps/sso-service/prisma/schema.prisma",
     "prisma:deploy:sso": "dotenv -e apps/sso-service/.env -- npx prisma migrate deploy --schema=apps/sso-service/prisma/schema.prisma",
+    "prisma:migrate:status:sso": "dotenv -e apps/sso-service/.env -- npx prisma migrate status --schema=apps/sso-service/prisma/schema.prisma",
+    "prisma:migrate:squash:sso": "dotenv -e apps/sso-service/.env -- bash apps/sso-service/prisma/scripts/squash-migrations.sh --schema=apps/sso-service/prisma/schema.prisma",
     "codegen": "openapi-generator-cli generate",
     "post-codegen": "pnpm lint && echo \"✅ ESLint ran successfully!\""
   },
@@ -38,6 +40,7 @@
     "class-transform": "^0.7.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
+    "dotenv": "^17.2.2",
     "prisma": "^6.16.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
@@ -95,7 +98,9 @@
       "^@app/sso-client(|/.*)$": "<rootDir>/libs/sso-client/src/$1",
       "^@nnpp/talent-client(|/.*)$": "<rootDir>/libs/talent-client/src/$1",
       "^@tuan/common(|/.*)$": "<rootDir>/libs/common/src/$1",
-      "^@tuan/contracts(|/.*)$": "<rootDir>/libs/contracts/src/$1"
+      "^@tuan/constants(|/.*)$": "<rootDir>/libs/constants/src/$1",
+      "^@tuan/contracts(|/.*)$": "<rootDir>/libs/contracts/src/$1",
+      "^@tuan/postmark(|/.*)$": "<rootDir>/libs/postmark/src/$1"
     }
   }
 }

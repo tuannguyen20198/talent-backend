@@ -36,11 +36,23 @@
       "@tuan/common/*": [
         "libs/common/src/*"
       ],
+      "@tuan/constants": [
+        "libs/constants/src"
+      ],
+      "@tuan/constants/*": [
+        "libs/constants/src/*"
+      ],
       "@tuan/contracts": [
         "libs/contracts/src"
       ],
       "@tuan/contracts/*": [
         "libs/contracts/src/*"
+      ],
+      "@tuan/postmark": [
+        "libs/postmark/src"
+      ],
+      "@tuan/postmark/*": [
+        "libs/postmark/src/*"
       ]
     }
   }

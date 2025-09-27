@@ -46,6 +46,15 @@
         "tsConfigPath": "libs/sso-client/tsconfig.lib.json"
       }
     },
+    "@nnpp/talent-client": {
+      "type": "library",
+      "root": "libs/talent-client",
+      "entryFile": "index",
+      "sourceRoot": "libs/talent-client/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/talent-client/tsconfig.lib.json"
+      }
+    },
     "@tuan/common": {
       "type": "library",
       "root": "libs/common",
@@ -53,6 +62,15 @@
       "sourceRoot": "libs/common/src",
       "compilerOptions": {
         "tsConfigPath": "libs/common/tsconfig.lib.json"
+      }
+    },
+    "@tuan/constants": {
+      "type": "library",
+      "root": "libs/constants",
+      "entryFile": "index",
+      "sourceRoot": "libs/constants/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/constants/tsconfig.lib.json"
       }
     },
     "@tuan/contracts": {
@@ -64,13 +82,13 @@
         "tsConfigPath": "libs/contracts/tsconfig.lib.json"
       }
     },
-    "@nnpp/talent-client": {
+    "@tuan/postmark": {
       "type": "library",
-      "root": "libs/talent-client",
+      "root": "libs/postmark",
       "entryFile": "index",
-      "sourceRoot": "libs/talent-client/src",
+      "sourceRoot": "libs/postmark/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/talent-client/tsconfig.lib.json"
+        "tsConfigPath": "libs/postmark/tsconfig.lib.json"
       }
     }
   }

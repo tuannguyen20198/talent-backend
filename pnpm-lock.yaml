@@ -38,6 +38,9 @@ importers:
       class-validator:
         specifier: ^0.14.2
         version: 0.14.2
+      dotenv:
+        specifier: ^17.2.2
+        version: 17.2.2
       prisma:
         specifier: ^6.16.1
         version: 6.16.1(typescript@5.9.2)
