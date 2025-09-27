@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
-import { AuthGuard } from 'apps/bff-service/src/modules/guard/auth.guard';
+import { AuthGuard } from '@tuan/common/guards';
 // import { AuthGuard } from 'apps/bff-service/src/modules/guard/auth.guard';
 
 @Controller('users')

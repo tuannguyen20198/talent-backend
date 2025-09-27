@@ -5,7 +5,7 @@ import { JobModule } from './modules/job/job.module';
 // import { UserModule } from './modules/user/user.module';
 import { SsoClientModule } from '@nnpp/sso-client';
 import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from './modules/guard/auth.guard';
+import { AuthGuard } from '@tuan/common/guards';
 
 @Module({
   imports: [
