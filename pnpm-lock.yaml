@@ -1640,6 +1640,7 @@ packages:
 
   class-transform@0.7.0:
     resolution: {integrity: sha512-j5O1TkgxsR836BOgyG83i5gKH3yaqdxMIbwviV3qJpcjGh1Vfil1CjtXn8RHgvtLvbosUutoewa+RA3Qty4SFA==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   class-transformer@0.5.1:
     resolution: {integrity: sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==}

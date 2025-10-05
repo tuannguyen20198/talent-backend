@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { HttpService } from '@nestjs/axios';
 import { FactoryProvider } from '@nestjs/common';
 import { AxiosInstance } from 'axios';

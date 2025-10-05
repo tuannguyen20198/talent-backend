@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Body, Controller, Post } from '@nestjs/common';
 import { SsoClientService } from '@nnpp/sso-client';
 import { LoginRequest } from '@nnpp/sso-client/client/generated';

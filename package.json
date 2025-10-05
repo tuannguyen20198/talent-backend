@@ -26,6 +26,11 @@
     "prisma:deploy:sso": "dotenv -e apps/sso-service/.env -- npx prisma migrate deploy --schema=apps/sso-service/prisma/schema.prisma",
     "prisma:migrate:status:sso": "dotenv -e apps/sso-service/.env -- npx prisma migrate status --schema=apps/sso-service/prisma/schema.prisma",
     "prisma:migrate:squash:sso": "dotenv -e apps/sso-service/.env -- bash apps/sso-service/prisma/scripts/squash-migrations.sh --schema=apps/sso-service/prisma/schema.prisma",
+    "prisma:generate-client:bff": "npx prisma generate --schema=apps/bff-service/prisma/schema.prisma",
+    "prisma:generate:bff": "dotenv -e apps/bff-service/.env -- npx prisma migrate dev --schema=apps/bff-service/prisma/schema.prisma",
+    "prisma:deploy:bff": "dotenv -e apps/bff-service/.env -- npx prisma migrate deploy --schema=apps/bff-service/prisma/schema.prisma",
+    "prisma:migrate:status:bff": "dotenv -e apps/bff-service/.env -- npx prisma migrate status --schema=apps/bff-service/prisma/schema.prisma",
+    "prisma:migrate:squash:bff": "dotenv -e apps/bff-service/.env -- bash apps/bff-service/prisma/scripts/squash-migrations.sh --schema=apps/bff-service/prisma/schema.prisma",
     "codegen": "openapi-generator-cli generate",
     "post-codegen": "pnpm lint && echo \"✅ ESLint ran successfully!\""
   },
