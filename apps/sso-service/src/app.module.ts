@@ -10,7 +10,7 @@ import { UserModule } from './modules/user/user.module';
 
     JwtModule.register({
       global: true,
-      secret: process.env.JWT_SECRET,
+      secret: process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-this-in-production',
       signOptions: { expiresIn: '1h' },
     }),
     AuthModule,

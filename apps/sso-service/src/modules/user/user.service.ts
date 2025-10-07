@@ -80,4 +80,10 @@ export class UserService {
       throw new UnauthorizedException('Invalid token');
     }
   }
+  async findUserById(userId: number) {
+    const user = await this.databaseService.prisma.user.findUnique({
+      where: { id: userId },
+    });
+    return user;
+  }
 }

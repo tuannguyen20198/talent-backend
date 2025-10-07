@@ -3,6 +3,7 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import {
@@ -71,7 +72,6 @@ export class SsoClientService {
       throw error;
     }
   }
-
   async getMe(token: string) {
     const response = await this.userApi.getMe(
       {}, // nếu getMe không nhận params thì truyền object rỗng
@@ -83,4 +83,35 @@ export class SsoClientService {
     );
     return response.data;
   }
+  async findUserById(userId: number) {
+    try {
+      const res = await this.userApi.getUserById({ id: userId });
+      console.log("res",res)
+      if (!res || !res.data) {
+        throw new InternalServerErrorException('Empty response from user API');
+      }
+  
+      return res.data;
+    } catch (error) {
+      const status = error?.response?.status;
+      const message = error?.response?.data?.message || error?.message || 'Unknown error';
+  
+      console.error('[SsoClientService] findUserById error:', {
+        userId,
+        status,
+        message,
+      });
+  
+      if (status === 400) {
+        throw new BadRequestException(message);
+      }
+  
+      if (status === 404) {
+        throw new NotFoundException('User not found');
+      }
+  
+      throw new InternalServerErrorException('Failed to fetch user information');
+    }
+  }
+  
 }
