@@ -29,5 +29,15 @@ jobs:
       - name: 📥 Install dependencies
         run: pnpm install
 
+      # 👇 Generate Prisma client nếu là SSO
+      - name: 🧬 Generate Prisma client (SSO)
+        if: matrix.service == 'sso-service'
+        run: pnpm prisma:generate-client:sso
+
+      # 👇 Generate Prisma client nếu là Talent
+      - name: 🧬 Generate Prisma client (Talent)
+        if: matrix.service == 'talent-backend'
+        run: pnpm prisma:generate-client:talent
+
       - name: 🛠️ Build ${{ matrix.service }}
         run: pnpm build @apps/${{ matrix.service }}
