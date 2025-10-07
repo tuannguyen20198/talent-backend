@@ -20,16 +20,13 @@ jobs:
           node-version: 22
 
       - name: Install dependencies (SSO)
-        run: pnpm install --filter sso-service...
+        run: pnpm install
 
       - name: Build SSO service
-        run: pnpm build --filter sso-service...
+        run: pnpm start:dev:sso
 
       - name: Run Prisma migrations for SSO
         run: pnpm prisma:deploy:sso
-
-      - name: Start SSO service in production
-        run: pnpm start:prod --filter sso-service
         env:
           SSO_DATABASE_URL: ${{ secrets.SSO_DATABASE_URL }}
           SSO_JWT_SECRET: ${{secrets.SSO_JWT_SECRET}}
