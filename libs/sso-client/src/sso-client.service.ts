@@ -86,32 +86,34 @@ export class SsoClientService {
   async findUserById(userId: number) {
     try {
       const res = await this.userApi.getUserById({ id: userId });
-      console.log("res",res)
+      console.log('res', res);
       if (!res || !res.data) {
         throw new InternalServerErrorException('Empty response from user API');
       }
-  
+
       return res.data;
     } catch (error) {
       const status = error?.response?.status;
-      const message = error?.response?.data?.message || error?.message || 'Unknown error';
-  
+      const message =
+        error?.response?.data?.message || error?.message || 'Unknown error';
+
       console.error('[SsoClientService] findUserById error:', {
         userId,
         status,
         message,
       });
-  
+
       if (status === 400) {
         throw new BadRequestException(message);
       }
-  
+
       if (status === 404) {
         throw new NotFoundException('User not found');
       }
-  
-      throw new InternalServerErrorException('Failed to fetch user information');
+
+      throw new InternalServerErrorException(
+        'Failed to fetch user information',
+      );
     }
   }
-  
 }
