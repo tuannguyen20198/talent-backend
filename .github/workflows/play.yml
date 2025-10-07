@@ -10,9 +10,6 @@ jobs:
   build-and-deploy-sso:
     name: Build and Deploy SSO Service
     runs-on: ubuntu-latest
-    env:
-      DATABASE_URL_SSO: ${{ secrets.DATABASE_URL_SSO }}
-      JWT_SECRET_SSO: ${{ secrets.JWT_SECRET_SSO }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -34,14 +31,15 @@ jobs:
       - name: Start SSO service in production
         run: pnpm start:prod --filter sso-service
         env:
-          SSO_API_KEY: ${{ secrets.SSO_API_KEY }}
-          SSO_OTHER_SECRET: ${{ secrets.SSO_OTHER_SECRET }}
+          SSO_DATABASE_URL: ${{ secrets.SSO_DATABASE_URL }}
+          SSO_JWT_SECRET: ${{secrets.SSO_JWT_SECRET}}
+
 
   build-and-deploy-talent:
     name: Build and Deploy Talent Service
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL_TALENT: ${{ secrets.DATABASE_URL_TALENT }}
+      TALENT_DATABASE_URL: ${{ secrets.TALENT_DATABASE_URL }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -63,5 +61,4 @@ jobs:
       - name: Start Talent service in production
         run: pnpm start:prod --filter talent-service
         env:
-          TALENT_API_KEY: ${{ secrets.TALENT_API_KEY }}
-          TALENT_OTHER_SECRET: ${{ secrets.TALENT_OTHER_SECRET }}
+          TALENT_DATABASE_URL: ${{ secrets.TALENT_DATABASE_URL }}
