@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+enum JobStatus {
+  ACTIVE
+  INACTIVE
+  CLOSED
+}
+
+// pending => profile_passed => interviewed => passed/failed
+enum ApplicationStatus {
+  PENDING
+  PROFILE_PASSED
+  INTERVIEWED
+  PASSED
+  FAILED
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../node_modules/@prisma/talent-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Job {
+  id          Int       @id @default(autoincrement())
+  recruiterId Int       @map("recruiter_id")
+  title       String
+  description String?
+  skills      String[]  @default([])
+  company     String?
+  location    String?
+  benefits    String?
+  salaryMin   Int       @map("salary_min")
+  salaryMax   Int       @map("salary_max")
+  status      JobStatus @default(ACTIVE)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@map("job")
+}
+
+model Profile {
+  id          Int      @id @default(autoincrement())
+  candidateId Int      @map("candidate_id")
+  skills      String[] @default([])
+  summary     String?
+  experience  String[] @default([])
+  education   String[] @default([])
+  projects    String[] @default([])
+  socialLinks String[] @default([])
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("profile")
+}
+
+model Application {
+  id          Int               @id @default(autoincrement())
+  jobId       Int               @map("job_id")
+  candidateId Int               @map("candidate_id")
+  status      ApplicationStatus @default(PENDING)
+  createdAt   DateTime          @default(now()) @map("created_at")
+  updatedAt   DateTime          @updatedAt @map("updated_at")
+
+  @@map("application")
+}

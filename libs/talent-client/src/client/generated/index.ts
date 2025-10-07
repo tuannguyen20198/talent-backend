@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Talent Service API
- * API for Talent Service
+ * API for retrieving job information from Talent Service
  *
  * The version of the OpenAPI document: 1.0.0
  * 

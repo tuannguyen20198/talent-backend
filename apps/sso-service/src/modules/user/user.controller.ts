@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { Body, Controller, Get, Logger, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Param, ParseIntPipe, Post, Req } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 
@@ -17,5 +17,13 @@ export class UserController {
   @Get('me')
   async getMe(@Req() req: any) {
     return this.userService.getMe(req.user.id);
+  }
+  @Get(':userId')
+  async findUserById(@Param('userId', ParseIntPipe) userId: number) {
+    const user = await this.userService.findUserById(userId);
+    return {
+      ...user,
+      password: '',
+    };
   }
 }
