@@ -9,7 +9,9 @@ export class DatabaseService implements OnModuleInit {
     this.prisma = new PrismaClient({
       datasources: {
         db: {
-          url: process.env.DATABASE_URL || 'postgresql://user:password@localhost:5432/nnpp?schema=public',
+          url:
+            process.env.DATABASE_URL ||
+            'postgresql://user:password@localhost:5432/nnpp?schema=public',
         },
       },
     });
