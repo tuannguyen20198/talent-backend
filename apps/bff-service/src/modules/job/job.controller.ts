@@ -12,6 +12,7 @@ import {
 import { SsoClientService } from '@nnpp/sso-client';
 import { CreateJobRequest } from '@nnpp/talent-client/client/generated';
 import { TalentClientService } from '@nnpp/talent-client/talent-client.service';
+import { User } from '@tuan/common/decorators';
 
 @Controller('jobs')
 export class JobController {
@@ -28,22 +29,19 @@ export class JobController {
   @Post()
   async createJob(
     @Body() body: CreateJobRequest,
-    @Req() req: Request & { user: { id: string } },
+    @User('id') userId:any, // 👈 Gọn gàng và rõ ràng
   ) {
-    const userId = Number(req.user.id);
-
     body.recruiterId = userId;
+  
     const recruiter = await this.ssoClientService.findUserById(userId);
-
     if (!recruiter) {
       throw new NotFoundException('Recruiter not found');
     }
-
-    const job = await this.talentService.createJob(body);
-
+  
     return {
-      ...job,
+      ...(await this.talentService.createJob(body)),
       recruiter,
     };
   }
+  
 }
