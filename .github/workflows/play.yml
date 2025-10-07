@@ -1,48 +1,49 @@
-name: Build and Deploy
+name: Build and Deploy SSO
 
 on:
   push:
     branches:
       - main
-      - master
-
 jobs:
   build-and-deploy-sso:
-    name: Build and Deploy SSO Service
+    name: Build & Deploy SSO Service
     runs-on: ubuntu-latest
-    env:
-      DATABASE_URL_SSO: ${{ secrets.DATABASE_URL_SSO }}
-      JWT_SECRET_SSO: ${{ secrets.JWT_SECRET_SSO }}
+
     steps:
-      - name: Checkout repo
+      - name: 🧾 Checkout repository
         uses: actions/checkout@v3
 
-      - name: Use Node.js 22.x
+      - name: ⚙️ Setup Node.js 22.x
         uses: actions/setup-node@v3
         with:
           node-version: 22
 
-      - name: Build SSO service
-        run: pnpm start:dev:sso
-
-        env:
-          SSO_DATABASE_URL: ${{ secrets.SSO_DATABASE_URL }}
-          SSO_JWT_SECRET: ${{ secrets.SSO_JWT_SECRET }}
-
-  build-and-deploy-talent:
-    name: Build and Deploy Talent Service
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Use Node.js 22.x
-        uses: actions/setup-node@v3
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
         with:
-          node-version: 22
+          version: 8
 
-      - name: Build Talent service
-        run: pnpm start:dev:talent
+      - name: 📥 Install dependencies (sso only)
+        run: pnpm install --filter @apps/sso-service...
 
+      - name: 🛠️ Build SSO service
+        run: pnpm build --filter @apps/sso-service...
+
+      - name: 🔄 Run Prisma migrate (deploy)
+        run: pnpm prisma:deploy:sso
         env:
-          TALENT_DATABASE_URL: ${{ secrets.TALENT_DATABASE_URL }}
+          # Gán biến môi trường từ GitHub Secrets
+          DATABASE_URL: ${{ secrets.SSO_DATABASE_URL }}
+
+      # Tuỳ chọn: Start production (nếu self-host)
+      # - name: 🚀 Start SSO service (prod)
+      #   run: pnpm start:prod --filter @apps/sso-service
+      #   env:
+      #     NODE_ENV: production
+      #     DATABASE_URL: ${{ secrets.SSO_DATABASE_URL }}
+
+      # Hoặc deploy lên server
+      # - name: 🚀 Deploy to production
+      #   run: ./scripts/deploy-sso.sh
+      #   env:
+      #     DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
