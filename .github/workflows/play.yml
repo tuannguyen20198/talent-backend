@@ -6,7 +6,7 @@ on:
       - main
 jobs:
   build-and-deploy-sso:
-    name: Build & Deploy SSO Service
+    name: Build Service Talent Backend
     runs-on: ubuntu-latest
 
     steps:
@@ -23,9 +23,15 @@ jobs:
         with:
           version: 8
 
-      - name: 📥 Install dependencies (sso only)
+      - name: 📥 Install dependencies
         run: pnpm install
 
-      - name: 🛠️ Build SSO service
+      - name: Test dependencies
+        run: pnpm install
+
+      - name: 🛠️ Build service talent backend
         run: pnpm build
+
+      - name: 🛠️ Build start talent backend
+        run: pnpm start:dev
 
