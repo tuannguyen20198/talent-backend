@@ -1,0 +1,67 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build-and-deploy-sso:
+    name: Build and Deploy SSO Service
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL_SSO: ${{ secrets.DATABASE_URL_SSO }}
+      JWT_SECRET_SSO: ${{ secrets.JWT_SECRET_SSO }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: Install dependencies (SSO)
+        run: pnpm install --filter sso-service...
+
+      - name: Build SSO service
+        run: pnpm build --filter sso-service...
+
+      - name: Run Prisma migrations for SSO
+        run: pnpm prisma:deploy:sso
+
+      - name: Start SSO service in production
+        run: pnpm start:prod --filter sso-service
+        env:
+          SSO_API_KEY: ${{ secrets.SSO_API_KEY }}
+          SSO_OTHER_SECRET: ${{ secrets.SSO_OTHER_SECRET }}
+
+  build-and-deploy-talent:
+    name: Build and Deploy Talent Service
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL_TALENT: ${{ secrets.DATABASE_URL_TALENT }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: Install dependencies (Talent)
+        run: pnpm install --filter talent-service...
+
+      - name: Build Talent service
+        run: pnpm build --filter talent-service...
+
+      - name: Run Prisma migrations for Talent
+        run: pnpm prisma:deploy:talent
+
+      - name: Start Talent service in production
+        run: pnpm start:prod --filter talent-service
+        env:
+          TALENT_API_KEY: ${{ secrets.TALENT_API_KEY }}
+          TALENT_OTHER_SECRET: ${{ secrets.TALENT_OTHER_SECRET }}
