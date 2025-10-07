@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-      - master
-
 jobs:
   build-and-deploy-sso:
     name: Build and Deploy SSO Service
@@ -21,9 +19,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 22
-
-      - name: Install dependencies (SSO)
-        run: pnpm install
 
       - name: Build SSO service
         run: pnpm start:dev:sso
@@ -43,9 +38,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 22
-
-      - name: Install dependencies (Talent)
-        run: pnpm install
 
       - name: Build Talent service
         run: pnpm start:dev:talent
