@@ -1,16 +1,11 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
 export const User = createParamDecorator(
-  (data: string | undefined, ctx: ExecutionContext) => {
+  (data: string | undefined, ctx: ExecutionContext): any => {
     const request = ctx.switchToHttp().getRequest();
+    console.log('Decorated user:', request.user); // 👈 kiểm tra ở đây
     const user = request.user;
 
-    // Nếu truyền data, trả về field cụ thể trong user (VD: @User('id'))
-    if (data) {
-      return user?.[data];
-    }
-
-    // Nếu không, trả toàn bộ user object
-    return user;
+    return data ? user?.[data] : user;
   },
 );
