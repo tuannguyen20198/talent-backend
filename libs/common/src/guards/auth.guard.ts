@@ -45,8 +45,6 @@ export class AuthGuard implements CanActivate {
     // 3. Xác thực token
     try {
       const decoded = await this.ssoClientService.verifyToken({ token });
-      console.log('✅ [AuthGuard] Token decoded:', decoded);
-
       request.user = {
         id: decoded.sub,
         email: decoded.email,
