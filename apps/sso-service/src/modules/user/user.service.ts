@@ -64,7 +64,6 @@ export class UserService {
       email: user.email,
     };
     const token = await this.jwtService.signAsync(payload);
-    console.log(token);
     return {
       token,
     };
