@@ -8,8 +8,9 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { DatabaseService } from '../../database/database.service';
 import { LoginDto } from '../auth/dto/login.dto';
-import { CreateUserDto } from './dto/create-user.dto';
+// import removed: CreateUserDto is not used because we accept RegisterDto and map fields
 import { VerifyTokenDto } from '../auth/dto/verify-token.dto';
+import { RegisterDto } from '../auth/dto/register.dto';
 
 @Injectable()
 export class UserService {
@@ -19,8 +20,8 @@ export class UserService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async register(body: CreateUserDto) {
-    const { email } = body;
+  async register(body: RegisterDto) {
+    const { email, password, firstName, lastName } = body;
     const existingUser = await this.databaseService.prisma.user.findUnique({
       where: { email },
     });
@@ -30,7 +31,12 @@ export class UserService {
     }
 
     const user = await this.databaseService.prisma.user.create({
-      data: body,
+      data: {
+        email,
+        password,
+        firstName,
+        lastName,
+      },
     });
     return user;
   }
@@ -85,4 +91,5 @@ export class UserService {
     });
     return user;
   }
+  
 }

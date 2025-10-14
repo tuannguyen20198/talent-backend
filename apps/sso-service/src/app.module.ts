@@ -3,11 +3,15 @@ import { JwtModule } from '@nestjs/jwt';
 import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
     DatabaseModule,
-
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ['.env.dev', '.env'], // hỗ trợ cả local và docker
+    }),
     JwtModule.register({
       global: true,
       secret:

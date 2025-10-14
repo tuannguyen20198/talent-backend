@@ -45,6 +45,11 @@ export class AuthGuard implements CanActivate {
     // 3. Xác thực token
     try {
       const decoded = await this.ssoClientService.verifyToken({ token });
+      
+      if (!decoded || !decoded.sub) {
+        throw new UnauthorizedException('Invalid token payload');
+      }
+
       request.user = {
         id: decoded.sub,
         email: decoded.email,

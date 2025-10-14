@@ -15,7 +15,7 @@ export function injectApiProvider<T>(
     inject: [HttpService],
     useFactory: (httpService: HttpService) => {
       const config = new Configuration({
-        basePath: 'http://localhost:5052',
+        basePath: process.env.TALENT_SERVICE_URL || 'http://localhost:5052',
       });
       return new ApiClass(config, config.basePath, httpService.axiosRef);
     },

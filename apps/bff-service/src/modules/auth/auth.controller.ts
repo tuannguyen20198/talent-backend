@@ -16,7 +16,8 @@ import { Public } from '@tuan/common/decorators/public.decorator';
 export class AuthController {
   constructor(private readonly ssoClientService: SsoClientService) {}
 
-  @Post()
+  @Public()
+  @Post('register')
   async register(@Body() body: CreateUserRequest) {
     try {
       return await this.ssoClientService.createUser(body);
