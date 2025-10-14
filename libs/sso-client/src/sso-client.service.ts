@@ -47,10 +47,18 @@ export class SsoClientService {
       });
       return res.data;
     } catch (error: any) {
-      if (error.response.status === 400) {
+      if (error.response && error.response?.status === 400) {
         throw new BadRequestException(error.response.data);
       }
-      throw error;
+    
+      // Log lỗi chi tiết để debug khi cần
+      console.error('SSO login error:', {
+        message: error.message,
+        code: error.code,
+        url: error.config?.url,
+      });
+    
+      throw new Error('SSO service unavailable');
     }
   }
   async verifyToken(data: VerifyTokenRequest) {
