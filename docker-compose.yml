@@ -1,29 +1,26 @@
 version: '3.8'
 
 services:
-  # 🗄️ DATABASE
   db:
     image: postgres:13-alpine
     container_name: postgres-db
     restart: always
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: nnpp
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - dbdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
-  # ⚡ REDIS CACHE
   cache:
     image: redis:7.0.3-alpine
     container_name: redis-cache
-    command: redis-server --save 20 1 --loglevel warning --requirepass password
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${POSTGRES_PASSWORD}
     ports:
       - "6379:6379"
 
-  # 🔐 SSO SERVICE (phụ)
   sso-service:
     build:
       context: .
@@ -31,14 +28,11 @@ services:
     container_name: sso-service
     depends_on:
       - db
-    environment:
-      DATABASE_URL: postgresql://user:password@host.docker.internal:5432/nnpp?schema=sso
-      JWT_SECRET: your-super-secret-jwt-key
-      NODE_ENV: production
+    env_file:
+      - apps/sso-service/.env.dev
     ports:
       - "5051:5051"
 
-  # 💼 TALENT SERVICE (phụ)
   talent-service:
     build:
       context: .
@@ -47,31 +41,24 @@ services:
     depends_on:
       - db
       - sso-service
-    environment:
-      DATABASE_URL: postgresql://user:password@host.docker.internal:5432/nnpp?schema=talent
-      SSO_SERVICE_URL: http://sso-service:5051
-      NODE_ENV: production
+    env_file:
+      - apps/talent-service/.env.dev
     ports:
       - "5052:5052"
 
-  # 🌐 BFF SERVICE (CHÍNH)
   bff-service:
     build:
       context: .
       dockerfile: Dockerfile.bff
-    container_name: talent-backend
+    container_name: bff-service
     restart: always
     depends_on:
       - db
       - cache
       - sso-service
       - talent-service
-    environment:
-      DATABASE_URL: postgresql://user:password@dbhost.docker.internal:5432/nnpp?schema=bff
-      REDIS_URL: redis://:password@cache:6379
-      SSO_SERVICE_URL: http://sso-service:5051
-      TALENT_SERVICE_URL: http://talent-service:5052
-      NODE_ENV: production
+    env_file:
+      - apps/bff-service/.env.dev
     ports:
       - "5050:5050"
 

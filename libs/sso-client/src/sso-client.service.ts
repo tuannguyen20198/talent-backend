@@ -27,16 +27,26 @@ export class SsoClientService {
       const res = await this.userApi.createUser({
         createUserRequest: data,
       });
-
       return res.data;
     } catch (err: unknown) {
-      if (err instanceof AxiosError && err.response) {
-        if (err.response.status === 400) {
+      if (err instanceof AxiosError) {
+        console.error('[SSO Error]', {
+          status: err.response?.status,
+          data: err.response?.data,
+          message: err.message,
+          url: err.config?.url,
+        });
+    
+        if (err.response?.status === 400) {
           throw new BadRequestException(err.response.data);
         }
-        throw new InternalServerErrorException(err.response.data);
+    
+        throw new InternalServerErrorException(
+          err.response?.data || err.message || 'SSO service error'
+        );
       }
-      // fallback for unexpected errors
+    
+      console.error('[Unexpected Error]', err);
       throw new InternalServerErrorException('Unexpected error occurred');
     }
   }
@@ -62,24 +72,34 @@ export class SsoClientService {
     }
   }
   async verifyToken(data: VerifyTokenRequest) {
-    console.log('>>> VerifyToken payload =', data);
+    console.log('>>> [BFF] VerifyToken payload =', data);
+  
     try {
       const res = await this.authApi.verifyToken({
-        verifyTokenRequest: data, // 👈 dùng luôn data
+        verifyTokenRequest: data,
       });
-      console.log('>>> VerifyToken response =', res.data);
-
+  
+      console.log('✅ [BFF] VerifyToken response =', res.data);
       return res.data as { sub: number; email: string };
+  
     } catch (error) {
+      console.error('❌ [BFF] VerifyToken failed');
+      console.error('Status:', error.response?.status);
+      console.error('Data:', error.response?.data);
+      console.error('URL:', error.config?.url);
+      console.error('Message:', error.message);
+  
       if (error.response?.status === 400) {
         throw new BadRequestException(error.response.data);
       }
       if (error.response?.status === 401) {
         throw new UnauthorizedException(error.response.data);
       }
-      throw error;
+  
+      throw new InternalServerErrorException('SSO verifyToken unexpected error');
     }
   }
+  
   async getMe(token: string) {
     const response = await this.userApi.getMe(
       {}, // nếu getMe không nhận params thì truyền object rỗng

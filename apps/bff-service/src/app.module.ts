@@ -6,9 +6,15 @@ import { UserModule } from './modules/user/user.module';
 import { SsoClientModule } from '@nnpp/sso-client';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from '@tuan/common';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    // 👇 Load env variables toàn cục
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ['.env.dev', '.env'], // hỗ trợ cả local và docker
+    }),
     SsoClientModule,
     TalentClientModule,
     AuthModule,

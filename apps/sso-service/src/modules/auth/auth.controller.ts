@@ -1,7 +1,8 @@
-import { Body, Controller, Logger, Post } from '@nestjs/common';
+import { Body, Controller, Logger, Post, UnauthorizedException } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { UserService } from '../user/user.service';
 import { VerifyTokenDto } from './dto/verify-token.dto';
+import { RegisterDto } from './dto/register.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -17,13 +18,21 @@ export class AuthController {
       throw error;
     }
   }
+  @Post('register')
+  async register(@Body() data: RegisterDto) {
+    this.logger.log(`Register request received with ${data.email}`);
+    return this.userService.register(data);
+  }
   @Post('verify-token')
   verifyToken(@Body() data: VerifyTokenDto) {
+    this.logger.log(`VerifyToken called with token: ${data.token}`);
     try {
       return this.userService.verifyToken(data);
     } catch (error) {
-      this.logger.log(error);
-      throw error;
+      // this.logger.log(error);
+      // throw error;
+      this.logger.error('VerifyToken failed:', error);
+      throw new UnauthorizedException('Invalid token');
     }
   }
 }
