@@ -6,6 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "aws:login":"aws sso login --profile nnpp-development",
     "build": "nest build",
     "build:sso": "nest build sso-service",
     "build:bff": "nest build bff-service",
